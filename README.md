@@ -8,7 +8,7 @@ smaller.
 * Build all with `nix-build`.
 
 * Build with some GHC or GHCJS version with `nix-build -A $xxx`, where `xxx` is
-  one of `ghc865`, `ghc882`, `ghcjs86`.
+  one of the supported GHC versions listed in `default.nix`.
 
 * Enter a development environment with `nix-shell -A $xxx.env`, where `xxx` is
-  one of `ghc865`, `ghc882`, `ghcjs86`.
+  one of the supported GHC versions listed in `default.nix`.
