@@ -21,7 +21,7 @@ instance S.SingKind A where
   fromSing SAx = Ax
   toSing Ax = S.SomeSing SAx
 
-instance S.TestEquality (S.Sing :: A -> *) where
+instance S.TestEquality (S.Sing :: A -> Type) where
   testEquality SAx SAx = Just S.Refl
 
 instance S.SingI 'Ax where sing = SAx
@@ -49,7 +49,7 @@ instance S.SingKind B where
   toSing Bx = S.SomeSing SBx
   toSing By = S.SomeSing SBy
 
-instance S.TestEquality (S.Sing :: B -> *) where
+instance S.TestEquality (S.Sing :: B -> Type) where
   testEquality SBx SBx = Just S.Refl
   testEquality SBy SBy = Just S.Refl
   testEquality _ _ = Nothing

@@ -7,6 +7,8 @@ module Singlethongs.Internal
  , SingKind(Demote, fromSing, toSing)
  ) where
 
+import Data.Kind (Type)
+
 data family Sing (a :: k)
 
 class SingI (a :: k) where
@@ -20,6 +22,6 @@ withSomeSing x f = case toSing x of SomeSing x' -> f x'
 {-# INLINE withSomeSing #-}
 
 class SingKind k where
-  type Demote k :: *
+  type Demote k :: Type
   fromSing :: Sing (a :: k) -> Demote k
   toSing :: Demote k -> SomeSing k

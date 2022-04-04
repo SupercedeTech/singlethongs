@@ -1,6 +1,6 @@
 cabal-version: 2.4
 name: singlethongs
-version: 0.1
+version: 0.1.0.1
 license: BSD-3-Clause
 license-file: LICENSE
 extra-source-files:  README.md CHANGELOG.md
@@ -14,9 +14,11 @@ description: Like singletons, but much smaller.
 homepage: https://gitlab.com/k0001/singlethongs
 bug-reports: https://gitlab.com/k0001/singlethongs/issues
 tested-with:
-  GHC == 8.6.0,
   GHC == 8.6.5,
-  GHC == 8.8.2
+  GHC == 8.8.4,
+  GHC == 8.10.7,
+  GHC == 9.0.1,
+  GHC == 9.2.1
 
 library
   hs-source-dirs: lib
@@ -29,7 +31,7 @@ library
     Singlethongs.Internal
     Singlethongs.TH
   build-depends:
-    base ==4.*,
+    base >=4.9 && <5,
     template-haskell,
 
 test-suite test

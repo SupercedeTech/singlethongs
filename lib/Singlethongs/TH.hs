@@ -33,7 +33,7 @@ instance 'SingKind' Fobo where
 instance 'SingI' 'Bar where 'sing' = SBar
 instance 'SingI' 'Qux where 'sing' = SQux
 
-instance 'TestEquality' ('Sing' :: Foo -> *) where
+instance 'TestEquality' ('Sing' :: Foo -> 'Type') where
   'testEquality' SBar SBar = 'Just' 'Refl'
   'testEquality' SQux SQux = 'Just' 'Refl'
   'testEquality' _ _ = 'Nothing'
@@ -80,9 +80,17 @@ genInstanceSingI nCon = do
 genInstanceSingKind :: Name -> [Name] -> Q [Dec]
 genInstanceSingKind nTy nCons = do
   let fromSingD = FunD (mkName "fromSing") $ flip fmap nCons $ \nCon ->
+#if MIN_VERSION_template_haskell(2,18,0)
+        Clause [ConP (sName nCon) [] []] (NormalB (ConE nCon)) []
+#else
         Clause [ConP (sName nCon) []] (NormalB (ConE nCon)) []
+#endif
       toSingD = FunD (mkName "toSing") $ flip fmap nCons $ \nCon ->
+#if MIN_VERSION_template_haskell(2,18,0)
+        Clause [ConP nCon [] []]
+#else
         Clause [ConP nCon []]
+#endif
                (NormalB (AppE (ConE 'SomeSing) (ConE (sName nCon)))) []
   pure [InstanceD Nothing [] (AppT (ConT ''SingKind) (ConT nTy))
          [mkDemoteD nTy, fromSingD, toSingD] ]
@@ -91,7 +99,11 @@ genInstanceTestEquality :: Name -> [Name] -> Q [Dec]
 genInstanceTestEquality nTy nCons = do
   let teD = FunD (mkName "testEquality") $ mconcat
        [ flip fmap nCons $ \nCon ->
+#if MIN_VERSION_template_haskell(2,18,0)
+           let p = ConP (sName nCon) [] []
+#else
            let p = ConP (sName nCon) []
+#endif
            in Clause [p, p] (NormalB (AppE (ConE 'Just) (ConE 'Refl))) []
        , case nCons of
            [_] -> []

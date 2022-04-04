@@ -1,4 +1,4 @@
-{ mkDerivation, base, stdenv, template-haskell }:
+{ mkDerivation, base, stdenv, lib, template-haskell }:
 mkDerivation {
   pname = "singlethongs";
   version = "0.1";
@@ -7,5 +7,5 @@ mkDerivation {
   testHaskellDepends = [ base ];
   homepage = "https://gitlab.com/k0001/singlethongs";
   description = "Like singletons, but very small";
-  license = stdenv.lib.licenses.bsd3;
+  license = lib.licenses.bsd3;
 }
